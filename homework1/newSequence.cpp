@@ -1,13 +1,43 @@
-#include "Sequence.h"
+#include "newSequence.h"
 
 #include <iostream>
+
+Sequence::Sequence()
+    : list_(new ItemType[DEFAULT_MAX_ITEMS]), max_size_(DEFAULT_MAX_ITEMS) {}
+
+Sequence::Sequence(int size) : list_(new ItemType[size]), max_size_(size) {}
+
+Sequence::~Sequence() { delete[] list_; }
+
+Sequence::Sequence(const Sequence &obj) {
+  max_size_ = obj.max_size_;
+  size_ = obj.size_;
+
+  list_ = new ItemType[obj.max_size_];
+  for (int i = 0; i < obj.size_; i++) {
+    list_[i] = obj.list_[i];
+  }
+}
+
+Sequence &Sequence::operator=(const Sequence &obj) {
+  delete[] list_;
+
+  max_size_ = obj.max_size_;
+  size_ = obj.size_;
+
+  list_ = new ItemType[obj.max_size_];
+  for (int i = 0; i < obj.size_; i++) {
+    list_[i] = obj.list_[i];
+  }
+  return *this;
+}
 
 bool Sequence::empty() const { return !size_; }
 
 int Sequence::size() const { return size_; }
 
 int Sequence::insert(int pos, const ItemType &value) {
-  if (size() < DEFAULT_MAX_ITEMS && pos >= 0 && pos <= size()) {
+  if (size() < max_size_ && pos >= 0 && pos <= size()) {
     for (int i = size(); i > pos; i--) {
       list_[i] = list_[i - 1];
     }

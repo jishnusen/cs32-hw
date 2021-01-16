@@ -1,5 +1,5 @@
-#ifndef SEQUENCE_H_
-#define SEQUENCE_H_
+#ifndef NEWSEQUENCE_H_
+#define NEWSEQUENCE_H_
 
 #include <string>
 
@@ -9,7 +9,13 @@ const int DEFAULT_MAX_ITEMS = 150;
 
 class Sequence {
  public:
-  Sequence(){};        // Create an empty sequence (i.e., one with no items)
+  Sequence();
+  Sequence(int size);  // Create a sequence size items
+  Sequence(const Sequence &obj);
+  ~Sequence();
+
+  Sequence &operator=(const Sequence &obj);
+
   bool empty() const;  // Return true if the sequence is empty, otherwise false.
   int size() const;    // Return the number of items in the sequence.
   int insert(int pos, const ItemType &value);
@@ -62,9 +68,12 @@ class Sequence {
 
   void dump() const;
   // Dump list_ to cerr
+  int max_size_;
+
  private:
-  ItemType list_[DEFAULT_MAX_ITEMS];
+  ItemType *list_;
+
   int size_ = 0;
 };
 
-#endif  // SEQUENCE_H_
+#endif  // NEWSEQUENCE_H_
