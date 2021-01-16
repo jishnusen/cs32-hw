@@ -1,7 +1,7 @@
 #include "ScoreList.h"
 
 bool ScoreList::add(unsigned long score) {
-  if (score >= 0 && score <= 100) {
+  if (score <= 100) {
     return scores_.insert(score) != -1;
   }
   return false;
