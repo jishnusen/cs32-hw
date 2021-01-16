@@ -59,7 +59,7 @@ int Sequence::insert(const ItemType &value) {
 
 bool Sequence::erase(int pos) {
   if (pos >= 0 && pos <= size()) {
-    for (int i = pos; i < size(); i++) {
+    for (int i = pos; i + 1 < size(); i++) {
       list_[i] = list_[i + 1];
     }
     size_--;
