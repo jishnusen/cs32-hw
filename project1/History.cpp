@@ -35,4 +35,5 @@ void History::display() const {
         }
         cout << endl;
     }
+    cout << endl;
 }
