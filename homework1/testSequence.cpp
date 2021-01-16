@@ -1,7 +1,6 @@
 #include <cassert>
 #include <iostream>
 
-#include "ScoreList.h"
 #include "Sequence.h"
 using namespace std;
 

@@ -68,10 +68,10 @@ class Sequence {
 
   void dump() const;
   // Dump list_ to cerr
-  int max_size_;
 
  private:
   ItemType *list_;
+  int max_size_;
 
   int size_ = 0;
 };
