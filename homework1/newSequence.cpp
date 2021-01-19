@@ -1,7 +1,5 @@
 #include "newSequence.h"
 
-#include <iostream>
-
 Sequence::Sequence()
     : list_(new ItemType[DEFAULT_MAX_ITEMS]), max_size_(DEFAULT_MAX_ITEMS) {}
 
@@ -108,11 +106,4 @@ void Sequence::swap(Sequence &other) {
   const Sequence tmp = *this;
   *this = other;
   other = tmp;
-}
-
-void Sequence::dump() const {
-  for (int i = 0; i < size_; i++) {
-    std::cerr << list_[i] << std::endl;
-  }
-  std::cerr << "--------------" << std::endl;
 }

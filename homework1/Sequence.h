@@ -60,8 +60,6 @@ class Sequence {
   void swap(Sequence &other);
   // Exchange the contents of this sequence with the other one.
 
-  void dump() const;
-  // Dump list_ to cerr
  private:
   ItemType list_[DEFAULT_MAX_ITEMS];
   int size_ = 0;

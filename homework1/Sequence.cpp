@@ -1,7 +1,5 @@
 #include "Sequence.h"
 
-#include <iostream>
-
 bool Sequence::empty() const { return !size_; }
 
 int Sequence::size() const { return size_; }
@@ -78,11 +76,4 @@ void Sequence::swap(Sequence &other) {
   const Sequence tmp = *this;
   *this = other;
   other = tmp;
-}
-
-void Sequence::dump() const {
-  for (int i = 0; i < size_; i++) {
-    std::cerr << list_[i] << std::endl;
-  }
-  std::cerr << "--------------" << std::endl;
 }
