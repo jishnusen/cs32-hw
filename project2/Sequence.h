@@ -31,6 +31,7 @@ class Sequence {
     ItemType val;              // Stored value in list element
   };
   void deleteList();
+  ListNode* get_ptr_to_index(int pos) const;
   ListNode* head_;  // Pointer to start of doubly-linked list
 };
 

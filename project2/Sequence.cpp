@@ -163,10 +163,7 @@ bool Sequence::get(int pos, ItemType& value) const {
   if (pos >= size() || pos < 0) {
     return false;
   }
-  ListNode* traverse = head_;
-  for (int i = 1; i <= pos; i++) {
-    traverse = traverse->next;
-  }
+  ListNode* traverse = get_ptr_to_index(pos);
   value = traverse->val;
   return true;
 }
@@ -175,12 +172,20 @@ bool Sequence::set(int pos, const ItemType& value) {
   if (pos >= size() || pos < 0) {
     return false;
   }
+  ListNode* traverse = get_ptr_to_index(pos);
+  traverse->val = value;
+  return true;
+}
+
+Sequence::ListNode* Sequence::get_ptr_to_index(int pos) const {
+  if (pos >= size() || pos < 0) {
+    return nullptr;
+  }
   ListNode* traverse = head_;
   for (int i = 1; i <= pos; i++) {
     traverse = traverse->next;
   }
-  traverse->val = value;
-  return true;
+  return traverse;
 }
 
 int Sequence::find(const ItemType& value) const {
