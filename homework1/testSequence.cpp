@@ -27,7 +27,7 @@ int main() {
 
   s.swap(a);
 
-  assert(a.size() == 3 && a.find(42 == 2));
+  assert(a.size() == 3 && a.find(42) == 2);
   assert(s.size() == 5 && s.find(4) == 4);
 
   Sequence b;
