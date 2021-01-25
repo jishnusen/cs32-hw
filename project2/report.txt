@@ -1,0 +1,285 @@
+# Doubly Linked List Implementation
+
+The list node implementation is as follows:
+
+```c++
+struct ListNode {
+  ListNode* prev = nullptr; // Holds pointer to previous item in list
+  ListNode* next = nullptr; // Holds pointer to next item in list
+  ItemType val;
+}
+```
+
+As can be seen, this list node is _doubly linked_, with the prev pointer 
+pointing to the previous item in the list, and the next pointer pointing
+to the next item. 
+
+The sequence class only needs immediate access to a pointer to the first
+item in the list, stored as `ListNode* head_`. The list is not circular,
+and the final element of the list is not stored, as it is unecessary to
+do so to implement the algorithms necessary to this project.
+
+A list with 3 elements appears as follows
+        ->nullptr
+    prev|
+        |
+        ->head--
+    prev|       |next
+        |       |
+        --item2<-
+        ->     --
+    prev|       |next
+        |       |
+        --final<-
+               --
+                |next
+                |
+        nullptr<-
+
+An one element list:
+        ->nullptr
+    prev|
+        |
+        ->head--
+                |next
+                |
+        nullptr<-
+
+An empty list is simply a null pointer.
+
+# Pseudocode
+
+Sequence::Sequence() {
+    start head_ off with a nullptr
+}
+
+Sequence::~Sequence() {
+    while the current element isnt a nullptr
+        delete the current element
+        move to the next element
+}
+
+Sequence::Sequence(const Sequence& obj) {
+    start head_ off with a nullptr
+    if obj is empty
+        nothing to do, we are empty by default
+    
+    make a deep copy of obj.head_
+    while we have element to copy in obj
+        deep copy elements onto our list
+        deep copy updates prevs and nexts
+}
+
+Sequence& Sequence::operator=(const Sequence& obj) {
+    delete the current list
+    do the same thing as the copy constructor
+    return this
+}
+
+int Sequence::size() const {
+    while we have elements to access
+        count them
+    return the count
+}
+
+int Sequence::insert(int pos, const ItemType& value) {
+    check if pos is invalid
+    if the list is empty
+        make head_ a new node with value
+    
+    if we are inserting at the start
+        heep the existing head alive by saving a to a temp variable
+        make a new node with value
+        new nodes next is the old head, as it is before it
+        the old heads prev is the new head
+    
+    if we are inserting anywhere else
+        traverse = the element before pos
+    
+    after = the element after travers // our element will be between traverse and after
+    make new list node with val value, prev traverse, next after
+    update next of traverse with the new node
+    if after exists update prev of after with the new node
+}
+
+int Sequence::insert(const ItemType& value) {
+    check every element for an item bigger than value
+    if such an item is found
+        call insert with the index of the item // this pushes item and beyond after value
+    otherwise insert at the end
+}
+
+bool Sequence::erase(int pos) {
+    check if pos is valid and list has element(s)
+    if erasing first element
+        make head the element after head
+        if the element exists
+            remove its prev as it is the first element now
+        delete the old head
+        make had the element that was after it
+    
+    if erasing any other element
+        get the current element at pos
+        get the elements before and after pos
+        remove current element at pos
+        link nexts and prevs of elements before and after
+
+int Sequence::remove(const ItemType& value) {
+    while we can find items that match value
+        erase them
+}
+
+bool Sequence::get(int pos, ItemType& value) const {
+    check if pos is valid and list has element(s)
+    get item at pos
+    set value to the value of the item
+}
+
+bool Sequence::set(int pos, const ItemType& value) {
+    check if pos is valid and list has element(s)
+    get item at pos
+    set value of the item to value
+}
+
+int Sequence::find(const ItemType& value) const {
+    start at the front
+    while we have elements to look at
+        if the val of current element is value
+            return index
+        go to next element
+    didnt find elements
+}
+
+Sequence::ListNode* Sequence::get_ptr_to_index(int pos) const {
+    check if pos is valid and list has element(s)
+    start at head
+    for counting pos - 2 times
+        go foward
+    return pointer to item we are at
+}
+
+void Sequence::swap(Sequence& other) {
+    take advantage of operator= and copy constructor to perform simple swap
+}
+
+int subsequence(const Sequence& seq1, const Sequence& seq2) {
+    check if seq2 is empty
+    for elements of seq1 leaving at least seq2.size() elements off
+        if the element is the same as first element seq2
+            for elements of seq2 after first
+                check with elements of seq1 after the matching element
+            if every element matched, we found a subsequence here
+                return the index
+    no subsequence found
+}
+
+void interleave(const Sequence& seq1, const Sequence& seq2, Sequence& result) {
+    while we have elements of result
+        erase them
+    
+    determine smaller and bigger sequence and store them
+
+    for the number of elements in smaller sequence
+        add on seq1 element to result at end
+        add on seq2 element to result at end
+    
+    for remaining elements in bigger sequence
+        add them onto the end of result
+
+}
+
+# Test Cases
+```c++
+  Sequence s;
+  assert(s.empty());
+  assert(s.find(42) == -1);
+  assert(s.insert(42) == 0); // Run a bunch of with smaller values
+  assert(s.insert(32) == 0); // This should be placed ahead of 42
+  assert(s.insert(22) == 0);
+  assert(s.insert(22) == 0);
+  assert(s.insert(22) == 0);
+  assert(s.insert(11) == 0);
+  assert(s.size() == 6 && s.find(42) == 5); // Ensure 42 is at the end
+  assert(s.remove(22) == 3); // Ensure it removes all 3 of the 22 added
+  assert(s.size() == 3 && s.find(42 == 2)); // 42 should still be last
+
+  Sequence a;
+  assert(a.insert(4) == 0);
+  assert(a.insert(2) == 0);
+  assert(a.insert(2) == 0);
+  assert(a.insert(1) == 0);
+  assert(a.insert(3) == 3); // check middle insertion
+
+  s.swap(a); // Now we swap
+
+  // Check if a got size + elements of s
+  assert(a.size() == 3 && a.find(42) == 2); 
+  // Check if s got size + elements of a
+  assert(s.size() == 5 && s.find(4) == 4);
+
+  // Prep two sequences for subsequence testing
+  Sequence c; 
+  Sequence d;
+
+  for (int i = 0; i < 10; i++) {
+    c.insert(c.size(), i);
+  } // c is now [0-9]
+
+  for (int i = 5; i < 10; i++) {
+    d.insert(d.size(), i);
+  } // d is now [5-9]
+  assert(subsequence(c, d) == 5); // check subsequence d found at 5 in a
+
+  Sequence e;
+  for (int i = 5; i < 15; i++) {
+    e.insert(e.size(), i);
+  } // e is now [5-15]
+  // make sure it fails with different arrays with same element size
+  assert(subsequence(c, e) == -1); 
+  // test with equivalent arrays of same size
+  assert(subsequence(c, c) == 0); 
+
+  Sequence f;
+  f.insert(0, 9); // prep array f with last element same as c[9]
+  assert(subsequence(c, f) == 9); // single element subsequence test
+
+  Sequence r; // Result sequence for all interleave tests
+  interleave(c, e, r); // interleave [0-9] with [5-15]
+  assert(r.size() == 2 * e.size()); // ensure net size
+  for (int i = 0; i < e.size(); i++) {
+    ItemType dummy;
+
+    e.get(i, dummy);
+    assert(r.find(dummy) == (i * 2) + 1); // check if e was interleaved
+  }
+    
+  // interleave [11,22,33] with [5-15], seq2.size() > seq1.size()
+  interleave(a, e, r); 
+  assert(r.size() == a.size() + e.size()); // ensure net size
+  for (int i = 0; i < a.size(); i++) {
+    ItemType dummy;
+
+    a.get(i, dummy);
+    assert(r.find(dummy) == (i * 2)); // check that all of a is present
+  }
+
+  // same as prev test, but now seq1.size() > seq2.size()
+  interleave(e, a, r);
+  assert(r.size() == a.size() + e.size()); // ensure net size
+  for (int i = 0; i < a.size(); i++) {
+    ItemType dummy;
+
+    a.get(i, dummy);
+    assert(r.find(dummy) == (i * 2) + 1); // check that all of a is present
+  }
+
+  Sequence empty;
+  interleave(empty, empty, r);
+  assert(r.size() == 0); // check interleaved empty arrays == empty array
+
+  interleave(a, empty, r); 
+  assert(r.size() == a.size()); // empty seq2 keeps seq1
+
+  interleave(empty, a, r);
+  assert(r.size() == a.size()); // empty seq1 keeps seq2
+```

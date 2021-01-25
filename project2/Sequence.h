@@ -35,4 +35,7 @@ class Sequence {
   ListNode* head_;  // Pointer to start of doubly-linked list
 };
 
+int subsequence(const Sequence& seq1, const Sequence& seq2);
+void interleave(const Sequence& seq1, const Sequence& seq2, Sequence& result);
+
 #endif  // SEQUENCE_H_

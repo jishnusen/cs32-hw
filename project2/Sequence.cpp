@@ -2,6 +2,56 @@
 
 #include <iostream>
 
+int subsequence(const Sequence& seq1, const Sequence& seq2) {
+  ItemType seq1_getter;
+  ItemType seq2_getter;
+  if (seq2.size() < 1) {
+    return -1;
+  }
+  for (int i = 0; i <= seq1.size() - seq2.size(); i++) {
+    seq1.get(i, seq1_getter);
+    seq2.get(0, seq2_getter);
+    if (seq1_getter == seq2_getter) {
+      int j;
+      for (j = 1; j < seq2.size(); j++) {
+        seq1.get(i + j, seq1_getter);
+        seq2.get(j, seq2_getter);
+        if (seq1_getter != seq2_getter) {
+          break;
+        }
+      }
+      if (j == seq2.size()) return i;
+    }
+  }
+  return -1;
+}
+
+void interleave(const Sequence& seq1, const Sequence& seq2, Sequence& result) {
+  ItemType dummy;
+  while (result.get(0, dummy)) {
+    result.erase(0);
+  }
+
+  const Sequence& bigger = seq1.size() >= seq2.size() ? seq1 : seq2;
+  const Sequence& smaller = seq2.size() <= seq1.size() ? seq2 : seq1;
+
+  ItemType s1_getter;
+  ItemType s2_getter;
+
+  for (int i = 0; i < smaller.size(); i++) {
+    seq1.get(i, s1_getter);
+    seq2.get(i, s2_getter);
+    result.insert(result.size(), s1_getter);
+    result.insert(result.size(), s2_getter);
+  }
+
+  ItemType b_getter;
+  for (int i = smaller.size(); i < bigger.size(); i++) {
+    bigger.get(i, b_getter);
+    result.insert(result.size(), b_getter);
+  }
+}
+
 Sequence::Sequence() : head_(nullptr) {}
 
 Sequence::~Sequence() {
@@ -88,7 +138,7 @@ int Sequence::insert(int pos, const ItemType& value) {
   if (pos > size() || pos < 0) {
     return -1;
   }
-  if (head_ == nullptr) {
+  if (size() == 0) {
     head_ = new ListNode({nullptr, nullptr, value});
     return pos;
   }
@@ -98,16 +148,9 @@ int Sequence::insert(int pos, const ItemType& value) {
     old_head->prev = head_;
     return pos;
   }
-  ListNode* traverse = head_;
-  for (int i = 1; i < pos; i++) {
-    traverse = traverse->next;
-  }
-  ListNode* after;
-  if (traverse->next != nullptr) {
-    after = traverse->next;
-  } else {
-    after = nullptr;
-  }
+  ListNode* traverse = get_ptr_to_index(pos - 1);
+  ListNode* after = traverse->next;
+
   ListNode* insertion = new ListNode({traverse, after, value});
   traverse->next = insertion;
   if (after != nullptr) {
@@ -128,13 +171,19 @@ int Sequence::insert(const ItemType& value) {
 }
 
 bool Sequence::erase(int pos) {
-  if (pos >= size() || pos < 0) {
+  if (pos >= size() || pos < 0 || size() == 0) {
     return false;
   }
-  ListNode* traverse = head_;
-  for (int i = 1; i <= pos; i++) {
-    traverse = traverse->next;
+
+  if (pos == 0) {
+    ListNode* new_head = head_->next;
+    if (new_head != nullptr) new_head->prev = nullptr;
+    ListNode* tmp = head_;
+    delete tmp;
+    head_ = new_head;
+    return true;
   }
+  ListNode* traverse = get_ptr_to_index(pos);
   ListNode* before = traverse->prev;
   ListNode* after = traverse->next;
 
@@ -160,7 +209,7 @@ int Sequence::remove(const ItemType& value) {
 }
 
 bool Sequence::get(int pos, ItemType& value) const {
-  if (pos >= size() || pos < 0) {
+  if (pos >= size() || pos < 0 || size() == 0) {
     return false;
   }
   ListNode* traverse = get_ptr_to_index(pos);
@@ -169,23 +218,12 @@ bool Sequence::get(int pos, ItemType& value) const {
 }
 
 bool Sequence::set(int pos, const ItemType& value) {
-  if (pos >= size() || pos < 0) {
+  if (pos >= size() || pos < 0 || size() == 0) {
     return false;
   }
   ListNode* traverse = get_ptr_to_index(pos);
   traverse->val = value;
   return true;
-}
-
-Sequence::ListNode* Sequence::get_ptr_to_index(int pos) const {
-  if (pos >= size() || pos < 0) {
-    return nullptr;
-  }
-  ListNode* traverse = head_;
-  for (int i = 1; i <= pos; i++) {
-    traverse = traverse->next;
-  }
-  return traverse;
 }
 
 int Sequence::find(const ItemType& value) const {
@@ -199,6 +237,17 @@ int Sequence::find(const ItemType& value) const {
     i++;
   }
   return -1;
+}
+
+Sequence::ListNode* Sequence::get_ptr_to_index(int pos) const {
+  if (pos >= size() || pos < 0 || size() == 0) {
+    return nullptr;
+  }
+  ListNode* traverse = head_;
+  for (int i = 1; i <= pos; i++) {
+    traverse = traverse->next;
+  }
+  return traverse;
 }
 
 void Sequence::swap(Sequence& other) {
