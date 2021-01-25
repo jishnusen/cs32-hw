@@ -30,8 +30,8 @@ class Sequence {
     ListNode* next = nullptr;  // Pointer to next element of list
     ItemType val;              // Stored value in list element
   };
-  void deleteList();
-  ListNode* get_ptr_to_index(int pos) const;
+  void deleteList();  // deletes every element in list and sets head to null
+  ListNode* get_ptr_to_index(int pos) const;  // gets pointer to item at pos
   ListNode* head_;  // Pointer to start of doubly-linked list
 };
 
