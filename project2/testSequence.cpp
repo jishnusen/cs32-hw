@@ -1,4 +1,4 @@
-/*#include <cassert>
+#include <cassert>
 #include <iostream>
 
 #include "Sequence.h"
@@ -101,12 +101,16 @@ int main() {
   assert(empty.size() == 0);
   assert(a.size() == 3);
 
+  interleave(a, a, a);  // Result: [11, 11, 32, 32, 42, 42]
+  assert(a.size() == 6);
+  assert(a.find(32) == 2);
+
   cout << "Passed all tests" << endl;
 }
-*/
-#include "Sequence.h"
-#include <iostream>
+
+/*#include "Sequence.h"
 #include <cassert>
+#include <iostream>
 using namespace std;
 
 void test() {
@@ -122,4 +126,4 @@ void test() {
 int main() {
   test();
   cout << "Passed all tests" << endl;
-}
+}*/

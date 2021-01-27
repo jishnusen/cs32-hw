@@ -28,9 +28,10 @@ int subsequence(const Sequence& seq1, const Sequence& seq2) {
 }
 
 void interleave(const Sequence& seq1, const Sequence& seq2, Sequence& result) {
+  Sequence res = result;
   ItemType dummy;
-  while (result.get(0, dummy)) {
-    result.erase(0);
+  while (res.get(0, dummy)) {
+    res.erase(0);
   }
   // longer seq
   const Sequence& bigger = seq1.size() >= seq2.size() ? seq1 : seq2;
@@ -44,16 +45,17 @@ void interleave(const Sequence& seq1, const Sequence& seq2, Sequence& result) {
   for (int i = 0; i < smaller.size(); i++) {
     seq1.get(i, s1_getter);
     seq2.get(i, s2_getter);
-    result.insert(result.size(), s1_getter);
-    result.insert(result.size(), s2_getter);
+    res.insert(res.size(), s1_getter);
+    res.insert(res.size(), s2_getter);
   }
 
   ItemType b_getter;
   // terminate with rem. longer seq
   for (int i = smaller.size(); i < bigger.size(); i++) {
     bigger.get(i, b_getter);
-    result.insert(result.size(), b_getter);
+    res.insert(res.size(), b_getter);
   }
+  result = res;
 }
 
 Sequence::Sequence() : head_(nullptr) {}
