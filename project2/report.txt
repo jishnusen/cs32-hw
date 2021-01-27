@@ -282,4 +282,8 @@ void interleave(const Sequence& seq1, const Sequence& seq2, Sequence& result) {
 
   interleave(empty, a, r);
   assert(r.size() == a.size()); // empty seq1 keeps seq2
+
+  interleave(a, a, a);  // Result: [11, 11, 32, 32, 42, 42]
+  assert(a.size() == 6); // Check interleave with aliases
+  assert(a.find(32) == 2);
 ```
