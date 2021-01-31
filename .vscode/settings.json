@@ -9,6 +9,7 @@
         "vector": "cpp",
         "xstring": "cpp",
         "stack": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "ostream": "cpp"
     }
 }
