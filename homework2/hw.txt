@@ -1,0 +1,39 @@
+2. Maze Stack
+    R: 6    C: 4
+    R: 6    C: 3
+    R: 6    C: 5
+    R: 7    C: 5
+    R: 8    C: 5
+    R: 8    C: 6
+    R: 8    C: 7
+    R: 8    C: 8
+    R: 7    C: 8
+    R: 6    C: 6
+    R: 5    C: 4
+    R: 4    C: 4
+
+4. Maze Queue
+    R: 6    C: 4
+    R: 5    C: 4
+    R: 6    C: 5
+    R: 6    C: 3
+    R: 4    C: 4
+    R: 6    C: 6
+    R: 7    C: 5
+    R: 3    C: 4
+    R: 4    C: 5
+    R: 8    C: 5
+    R: 2    C: 4
+    R: 4    C: 6
+
+   Maze stack has the behavior that it only checks one path at a time, 
+   as each "next step" along the current path takes precedence over all
+   others. However, Maze queue operates differently. It queues possible
+   paths at the back of the queue, leading to a behavior where multiple
+   paths may be explored at once, as it processes points from the front
+   of the queue and the ends of each possible path are far away at the
+   back of the queue. This leads to the stack approach mimicing the 
+   Depth First Search algorithm, where we algorithm traverses the Maze
+   in one direction at a time. However, the queue approach mimics a
+   Breadth First Search algorithm, where multiple paths are explored
+   concurrently.
