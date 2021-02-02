@@ -46,6 +46,16 @@ void dumpStack(stack<bool> s) {
   }
 }
 
+int precedence(char c) {
+  switch (c) {
+    case '&':
+      return 2;
+    case '|':
+      return 1;
+  }
+  return 3;
+}
+
 int evaluate(string infix, const bool values[], string& postfix, bool& result) {
   postfix = "";             // Resulting postfix operation string
   stack<char> postfix_ops;  // Postfix operators
@@ -72,18 +82,11 @@ int evaluate(string infix, const bool values[], string& postfix, bool& result) {
         }
         postfix_ops.pop();
         break;
+
       case '&':
-        while (!postfix_ops.empty() && postfix_ops.top() != '(' &&
-               postfix_ops.top() == '&') {
-          postfix += postfix_ops.top();
-          postfix_ops.pop();
-        }
-        postfix_ops.push(infix[i]);
-        break;
       case '|':
         while (!postfix_ops.empty() && postfix_ops.top() != '(' &&
-               ((postfix_ops.top() == '|' || postfix_ops.top() == '&') ||
-                postfix_ops.top() == '!')) {
+               precedence(infix[i]) <= precedence(postfix_ops.top())) {
           postfix += postfix_ops.top();
           postfix_ops.pop();
         }
