@@ -24,7 +24,7 @@ bool pathExists(string maze[], int nRows, int nCols, int sr, int sc, int er,
     Coord top = coordStack.top();
     coordStack.pop();
 
-    cout << "R: " << top.r() << "\tC: " << top.c() << endl;
+    // cout << "R: " << top.r() << "\tC: " << top.c() << endl;
 
     if (top.r() == er && top.c() == ec) {
       return true;
