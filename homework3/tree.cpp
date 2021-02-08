@@ -1,7 +1,3 @@
-/* #include <iostream> */
-/* #include <cassert> */
-/* using namespace std; */
-
 // Return the number of ways that all n1 elements of a1 appear in
 // the n2 element array a2 in the same order (though not necessarily
 // consecutively).  The empty sequence (i.e. one where n1 is 0)
@@ -92,33 +88,3 @@ void order(double a[], int n) {
   order(a + fl, n - fl);
   return;
 }
-
-/* void dumpArr(double a[], int n) { */
-/*   for (int i = 0; i < n; i++) { */
-/*     cout << a[i] << "\t"; */
-/*   } */
-/*   cout << endl; */
-/* } */
-
-/* int main() { */
-/*   double a2[7] = {10,50,40,20,50,40,30}; */
-/*   double a1[3] = {10,20,40}; */
-/*   assert(countIsIn(a1,3,a2,7) == 1); */
-/*   a1[1] = 40; */
-/*   a1[2] = 30; // 10 40 30 */
-/*   assert(countIsIn(a1,3,a2,7) == 2); */
-/*   a1[0] = 20; */
-/*   a1[1] = 10; */
-/*   a1[2] = 40; // 20 10 40 */
-/*   assert(countIsIn(a1,3,a2,7) == 0); */
-/*   a1[0] = 50; */
-/*   a1[1] = 40; */
-/*   a1[2] = 30; // 50 40 30 */
-/*   assert(countIsIn(a1,3,a2,7) == 3); */
-/*   order(a2, 7); */
-/*   dumpArr(a2, 7); */
-  
-/*   double a3[8] = {1,2,3,4,3,4,1,7}; */
-/*   order(a3, 8); */
-/*   dumpArr(a3, 8); */
-/* } */
