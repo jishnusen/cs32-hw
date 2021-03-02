@@ -1,14 +1,3 @@
-class Coord {
- public:
-  Coord(int rr, int cc) : m_row(rr), m_col(cc) {}
-  int r() const { return m_row; }
-  int c() const { return m_col; }
-
- private:
-  int m_row;
-  int m_col;
-};
-
 bool pathExists(string maze[], int nRows, int nCols, int sr, int sc, int er,
                 int ec) {
   if (sr == er && sc == ec) {

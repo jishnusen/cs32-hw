@@ -1,0 +1,3 @@
+2. This causes a compiler error because the insert(T) function uses the > comparison
+   operator to determine where to insert the item. In the case of the Coord class, the
+   > operator is not defined.
