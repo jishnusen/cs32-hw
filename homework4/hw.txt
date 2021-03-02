@@ -1,3 +1,22 @@
 2. This causes a compiler error because the insert(T) function uses the > comparison
    operator to determine where to insert the item. In the case of the Coord class, the
-   > operator is not defined.
+   `>` operator is not defined.
+
+4. b) A single parameter version would not work because there is no way for the function
+      to determine the parent path.
+
+5. a) O(N^3), the first loop does N assignment operations. The next nested loop does
+      N comparison operations, and N-1 assignment operations. The next nested loop does
+      3N comparison operations, and 3N assignment operations. This is a total of:
+      
+      O(N*(2N-1)*6N) ~= O(12N^3) ~= O(N^3)
+
+   b) O(N^3). The second loop is differed to run the third loop sum([1,N)) times, this
+      converges to O(N^3) for large N.
+6. a) O(N) as each get is O(1) because of nodeAtPos having the possibility of checking
+      every element. The second loop is not evaluated for len(seq1) == len(seq2). insert
+      at the end is O(1).
+      
+   b) O(N), insertBefore is O(1). This is because the loop runs for N times, with each loop
+      having 2 accesses of an ItemType and the second loop is not called because the lengths 
+      of both sequences are equal. This is the same as 6a.
